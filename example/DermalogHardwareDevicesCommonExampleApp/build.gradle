@@ -1,0 +1,116 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+    }
+}
+
+allprojects {
+    repositories {
+        maven{
+            url '../../repository'
+        }
+
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 32
+
+    defaultConfig {
+        applicationId "com.dermalog.hardware"
+        minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 1
+        versionName "1.0-source"
+
+        buildConfigField "String", "VERSION_NAME", "\"$versionName\""
+        //DermalogFingerCode3 and DermalogNistQualityCheck require a license if no DERMALOG scanner is attached (e.g. SVT4500SE and SVT5008).
+        buildConfigField "String", "LICENSE", "\"eyJ2ZXJzaW9uIjoxLCJjcmVhdGVkIjoiMjAyMi0wMS0yMCIsImN1c3RvbWVyIjoiREVSTUFMT0cgVFVUT1JJQUwgTElDRU5TRSIsImxpY2Vuc2VUeXBlIjoiQXBwbGljYXRpb24iLCJsaWNlbnNlSWQiOiI1ZWQzOTkxYzEyZjNlMjVjZmJkY2Q5ZjdlMzA5ZWJiYzE1MTMyZTIwYWQxMWFlYTY0ZjZkZTZlZGExY2EwY2M4Iiwib3MiOiJBbmRyb2lkIiwidmFsaWRVbnRpbCI6IjIwMjMtMTEtMjEiLCJzZGtzIjpbeyJwcm9kdWN0SWQiOjExMDEwMDIsImRlc2NyaXB0aW9uIjoiRmluZ2VyQ29kZTMifSx7InByb2R1Y3RJZCI6MTEwMTAxMiwiZGVzY3JpcHRpb24iOiJOaXN0UXVhbGl0eUNoZWNrIn1dfQ==.MEQCICLu/kROfS+lVJgXRKFTz6Z2J8saQzoDMEIVrIll+gL1AiAX+55BdFgtInoRmfkURcXd+JqnEdJLR8DXtqzmHnAURg==\""
+        buildConfigField "String", "HALDEVICE", "\"\""
+        setProperty("archivesBaseName", "DermalogHAL-$versionName")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "flavor"
+
+    //Each android device has its own product flavour. Please make sure to select the correct flavor for your device
+    productFlavors {
+        generic {
+            dimension "flavor"
+        }
+
+        svt3000se {
+            dimension "flavor"
+            ndk {
+                abiFilters 'armeabi-v7a'
+            }
+        }
+
+        svt4000se {
+            dimension "flavor"
+            ndk {
+                abiFilters 'armeabi-v7a'
+            }
+        }
+
+        svt4500se {
+            dimension "flavor"
+            ndk {
+                abiFilters 'arm64-v8a'
+            }
+        }
+
+        svt5008 {
+            dimension "flavor"
+            ndk {
+                abiFilters 'arm64-v8a'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+
+    implementation "com.dermalog.android:DermalogHardwareDevicesCommon:2.+"
+    implementation 'com.dermalog.android.biometricpassportsdk:DermalogBiometricPassportSdk:1.+'
+    implementation 'com.dermalog.android:DermalogImageContainer:2.+'
+    implementation 'com.dermalog.android:DermalogFingerCode3:3.+'
+    implementation 'com.dermalog.android:DermalogNistQualityCheck:1.+'
+
+
+    //add only ZF1 support to generic implementation
+    genericApi 'com.dermalog.android.biometricpassportsdk:DermalogBPZF1:1.+'
+
+
+    //SVT3000SE uses a DERMALOG F1 fingerprint scanner
+    svt3000seImplementation "com.dermalog.android:DermalogHardwareSVT3000SE:2.+"
+    svt3000seImplementation 'com.dermalog.android.biometricpassportsdk:DermalogBPZF1:1.+'
+
+    //SVT4000SE uses a DERMALOG F1 fingerprint scanner
+    svt4000seImplementation "com.dermalog.android:DermalogHardwareSVT4000SE:2.+"
+    svt4000seImplementation 'com.dermalog.android.biometricpassportsdk:DermalogBPZF1:1.+'
+
+    //SVT4500SE uses a Integrated Biometrics Columbo or Suprema fingerprint scanner
+    svt4500seImplementation "com.dermalog.android:DermalogHardwareSVT4500SE:1.+"
+    svt4500seImplementation "com.dermalog.android.biometricpassportsdk:DermalogBPTF10:1.+"
+    svt4500seImplementation "com.dermalog.android.biometricpassportsdk:DermalogBPSupremaBioMiniPlugin:1.+"
+
+    //SVT5008 uses a Integrated Biometrics or Suprema fingerprint scanner
+    svt5008Implementation "com.dermalog.android:DermalogHardwareSVT5008:1.+"
+    svt5008Implementation "com.dermalog.android.biometricpassportsdk:DermalogBPSupremaBioMiniPlugin:1.+"
+    svt5008Implementation "com.dermalog.android.biometricpassportsdk:DermalogBPTF10:1.+"
+}

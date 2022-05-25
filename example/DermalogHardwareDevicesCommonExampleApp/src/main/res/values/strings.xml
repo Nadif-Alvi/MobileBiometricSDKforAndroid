@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Tutorial</string>
+    <string name="usb_on">USB ON</string>
+    <string name="usb_off">USB OFF</string>
+    <string name="get_status">GET STATUS</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="fingerprint_example">Fingerprint</string>
+    <string name="capture">Capture</string>
+    <string name="nfiq">NFIQ: %s</string>
+    <string name="wsq">WSQ: %s bytes</string>
+    <string name="cancel">Cancel</string>
+    <string name="power_manager_example">Power Manager</string>
+    <string name="usb_otg">USB OTG</string>
+    <string name="activity_powermanager_title">Power Management</string>
+    <string name="activity_magneticcard_title">Magnetic Card</string>
+    <string name="activity_printer_title">Printer</string>
+    <string name="available_slots">Available Slots</string>
+    <string name="power_off">Power Off</string>
+    <string name="power_on">Power on</string>
+    <string name="close">Close</string>
+    <string name="atr">ATR:</string>
+    <string name="open">Open</string>
+    <string name="apdu_to_send">APDU to send</string>
+    <string name="result">Result</string>
+    <string name="printer_example">Thermal printer</string>
+    <string name="magneticcard_example">Magnetic Card</string>
+    <string name="card_reader">Card Reader</string>
+    <string name="slot">Slot:</string>
+    <string name="read">READ</string>
+    <string name="share">SHARE</string>
+</resources>
